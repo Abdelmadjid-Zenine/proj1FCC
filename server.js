@@ -41,14 +41,23 @@ app.get("/api/:date?", (req, res) => {
       "utc": new Date().toUTCString()
     })
   }
+
   else{
     if(inputDate.isValid())
     {
-      
-      res.status(200).json({
-        "unix":inputDate.getTime(),
-        "utc":inputDate.toUTCString()
-      })
+      if(req.params.date === inputDate.getTime())
+      {
+        res.status(200).json({
+          "unix":req.params.date,
+          "utc":inputDate.toUTCString()
+        })  
+      } 
+      else{
+        res.status(200).json({
+          "unix":inputDate.getTime(),
+          "utc":inputDate.toUTCString()
+        })
+    }
     }
     else{
       res.json(
@@ -59,7 +68,6 @@ app.get("/api/:date?", (req, res) => {
     }
   }
   
-  // const inputDate = new Date()
  
 });
 
